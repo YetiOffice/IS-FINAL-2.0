@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quote Collage Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         * {
             margin: 0;
@@ -14,6 +15,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
             color: #333;
@@ -94,20 +96,28 @@
 
         .button-group {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 15px;
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 1em;
+            padding: 12px 24px;
+            font-size: 0.95em;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button i {
+            font-size: 1.1em;
         }
 
         .btn-primary {
@@ -140,6 +150,61 @@
             transform: translateY(-2px);
         }
 
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .collage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .collage-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
         .collage-container {
             background: white;
             padding: 30px;
@@ -166,6 +231,12 @@
             transform: scale(0.8) translateY(20px);
             animation: fadeInUp 0.5s forwards;
             cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .quote-card.favorite {
+            border-color: #ffc107;
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
         }
 
         .quote-card:nth-child(1) { animation-delay: 0.1s; }
@@ -185,6 +256,45 @@
         .quote-card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .quote-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .quote-card:hover .quote-actions {
+            opacity: 1;
+        }
+
+        .quote-action-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote-action-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .quote-action-btn.favorite-btn.active {
+            color: #ffc107;
         }
 
         .quote-text {
@@ -244,6 +354,69 @@
             transform: translateX(0);
         }
 
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .theme-presets {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .theme-preset {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .theme-preset:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .theme-preset.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .export-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .favorites-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .favorites-section.show {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2em;
@@ -254,6 +427,31 @@
             .collage-grid {
                 grid-template-columns: 1fr;
             }
+            .collage-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .button-group {
+                width: 100%;
+            }
+            button {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -317,19 +515,52 @@
                 </div>
             </div>
 
+            <div class="controls-grid" style="margin-top: 20px;">
+                <div class="control-group">
+                    <label>Search Quotes</label>
+                    <input type="text" id="searchBox" class="search-box" placeholder="Search quotes by text or author...">
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">Preset Themes</label>
+                <div class="theme-presets">
+                    <div class="theme-preset" onclick="applyTheme('ocean', this)">🌊 Ocean</div>
+                    <div class="theme-preset" onclick="applyTheme('sunset', this)">🌅 Sunset</div>
+                    <div class="theme-preset" onclick="applyTheme('forest', this)">🌲 Forest</div>
+                    <div class="theme-preset" onclick="applyTheme('lavender', this)">💜 Lavender</div>
+                    <div class="theme-preset" onclick="applyTheme('minimal', this)">⚪ Minimal</div>
+                    <div class="theme-preset" onclick="applyTheme('dark', this)">🌙 Dark</div>
+                </div>
+            </div>
+
             <div class="button-group">
-                <button class="btn-primary" onclick="generateQuote()">Add Quote to Collage</button>
-                <button class="btn-success" onclick="generateMultiple(5)">Add 5 Random Quotes</button>
-                <button class="btn-secondary" onclick="clearCollage()">Clear Collage</button>
+                <button class="btn-primary" onclick="generateQuote()"><i class="bi bi-plus-circle"></i> Add Quote</button>
+                <button class="btn-success" onclick="generateMultiple(5)"><i class="bi bi-stars"></i> Add 5 Random</button>
+                <button class="btn-info" onclick="exportCollage()"><i class="bi bi-download"></i> Export Image</button>
+                <button class="btn-warning" onclick="toggleFavorites()"><i class="bi bi-heart-fill"></i> Favorites</button>
+                <button class="btn-secondary" onclick="undoLast()"><i class="bi bi-arrow-counterclockwise"></i> Undo</button>
+                <button class="btn-danger" onclick="clearCollage()"><i class="bi bi-trash"></i> Clear All</button>
             </div>
         </div>
 
+        <div id="favoritesSection" class="favorites-section">
+            <h3 style="margin-bottom: 20px; color: #555;"><i class="bi bi-heart-fill" style="color: #ffc107;"></i> Favorite Quotes</h3>
+            <div id="favoritesGrid" class="collage-grid"></div>
+        </div>
+
         <div class="collage-container">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #555;">Your Quote Collage</h2>
+            <div class="collage-header">
+                <h2 style="margin: 0; color: #555;">Your Quote Collage</h2>
+                <div class="collage-stats">
+                    <span class="stat-badge" id="quoteCount">0 Quotes</span>
+                    <span class="stat-badge" id="favoriteCount" style="background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);">0 Favorites</span>
+                </div>
+            </div>
             <div id="collage" class="collage-grid">
                 <div class="empty-state">
                     <div class="empty-state-icon">💭</div>
-                    <p style="font-size: 1.2em;">No quotes yet. Click "Add Quote to Collage" to get started!</p>
+                    <p style="font-size: 1.2em;">No quotes yet. Click "Add Quote" to get started!</p>
                 </div>
             </div>
         </div>
@@ -417,6 +648,11 @@
             bgColor2: "#c3cfe2"
         };
 
+        // State management
+        let quoteHistory = [];
+        let favorites = JSON.parse(localStorage.getItem('favoriteQuotes') || '[]');
+        let searchQuery = '';
+
         // Load settings from localStorage
         function loadSettings() {
             const saved = localStorage.getItem('quoteCollageSettings');
@@ -451,15 +687,32 @@
             saveSettings();
         }
 
+        // Check if quote is favorite
+        function isFavorite(quote) {
+            return favorites.some(fav => fav.text === quote.text && fav.author === quote.author);
+        }
+
         // Create quote card element
-        function createQuoteCard(quote) {
+        function createQuoteCard(quote, isFavoriteView = false) {
             const card = document.createElement('div');
             card.className = 'quote-card';
+            if (isFavorite(quote)) {
+                card.classList.add('favorite');
+            }
             card.style.fontFamily = currentSettings.fontFamily;
             card.style.color = currentSettings.textColor;
             card.style.background = `linear-gradient(135deg, ${currentSettings.bgColor1} 0%, ${currentSettings.bgColor2} 100%)`;
             
+            const favoriteClass = isFavorite(quote) ? 'active' : '';
             card.innerHTML = `
+                <div class="quote-actions">
+                    <button class="quote-action-btn favorite-btn ${favoriteClass}" data-quote-text="${quote.text.replace(/"/g, '&quot;')}" data-quote-author="${quote.author.replace(/"/g, '&quot;')}" data-quote-category="${quote.category.replace(/"/g, '&quot;')}">
+                        <i class="bi bi-heart${isFavorite(quote) ? '-fill' : ''}"></i>
+                    </button>
+                    <button class="quote-action-btn delete-btn" title="Delete">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
                 <div class="quote-text" style="font-size: ${currentSettings.fontSize}em;">
                     "${quote.text}"
                 </div>
@@ -467,10 +720,30 @@
                 <div class="quote-category">${quote.category}</div>
             `;
 
+            // Add event listeners
+            const favoriteBtn = card.querySelector('.favorite-btn');
+            favoriteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const quoteData = {
+                    text: favoriteBtn.dataset.quoteText,
+                    author: favoriteBtn.dataset.quoteAuthor,
+                    category: favoriteBtn.dataset.quoteCategory
+                };
+                toggleFavorite(quoteData);
+            });
+
+            const deleteBtn = card.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteQuoteCard(deleteBtn);
+            });
+
             // Add click to copy
-            card.addEventListener('click', () => {
-                copyToClipboard(`"${quote.text}" — ${quote.author}`);
-                showNotification();
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.quote-actions')) {
+                    copyToClipboard(`"${quote.text}" — ${quote.author}`);
+                    showNotification();
+                }
             });
 
             // Add hover tooltip
@@ -489,8 +762,64 @@
                 emptyState.remove();
             }
 
+            // Save to history for undo
+            quoteHistory.push({
+                action: 'add',
+                quote: quote,
+                timestamp: Date.now()
+            });
+
             const card = createQuoteCard(quote);
             collage.appendChild(card);
+            updateStats();
+            
+            // Scroll to new card
+            setTimeout(() => {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        // Delete quote card
+        function deleteQuoteCard(button) {
+            const card = button.closest('.quote-card');
+            const quote = extractQuoteFromCard(card);
+            
+            // Save to history for undo
+            quoteHistory.push({
+                action: 'delete',
+                quote: quote,
+                card: card.outerHTML,
+                timestamp: Date.now()
+            });
+
+            card.style.animation = 'fadeOut 0.3s forwards';
+            setTimeout(() => {
+                card.remove();
+                if (document.getElementById('collage').children.length === 0) {
+                    document.getElementById('collage').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">💭</div>
+                            <p style="font-size: 1.2em;">No quotes yet. Click "Add Quote" to get started!</p>
+                        </div>
+                    `;
+                }
+                updateStats();
+            }, 300);
+        }
+
+        // Extract quote data from card element
+        function extractQuoteFromCard(card) {
+            const text = card.querySelector('.quote-text').textContent.replace(/^"|"$/g, '').trim();
+            const author = card.querySelector('.quote-author').textContent.replace(/^— /, '').trim();
+            const category = card.querySelector('.quote-category').textContent.trim();
+            return { text, author, category };
+        }
+
+        // Update statistics
+        function updateStats() {
+            const quoteCount = document.getElementById('collage').querySelectorAll('.quote-card').length;
+            document.getElementById('quoteCount').textContent = `${quoteCount} Quote${quoteCount !== 1 ? 's' : ''}`;
+            document.getElementById('favoriteCount').textContent = `${favorites.length} Favorite${favorites.length !== 1 ? 's' : ''}`;
         }
 
         // Generate and add quote
@@ -519,13 +848,303 @@
 
         // Clear collage
         function clearCollage() {
+            if (confirm('Are you sure you want to clear all quotes?')) {
+                const collage = document.getElementById('collage');
+                const cards = collage.querySelectorAll('.quote-card');
+                
+                // Save to history
+                cards.forEach(card => {
+                    quoteHistory.push({
+                        action: 'delete',
+                        quote: extractQuoteFromCard(card),
+                        card: card.outerHTML,
+                        timestamp: Date.now()
+                    });
+                });
+
+                collage.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💭</div>
+                        <p style="font-size: 1.2em;">No quotes yet. Click "Add Quote" to get started!</p>
+                    </div>
+                `;
+                updateStats();
+            }
+        }
+
+        // Undo last action
+        function undoLast() {
+            if (quoteHistory.length === 0) {
+                showNotification('Nothing to undo!');
+                return;
+            }
+
+            const lastAction = quoteHistory.pop();
             const collage = document.getElementById('collage');
-            collage.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">💭</div>
-                    <p style="font-size: 1.2em;">No quotes yet. Click "Add Quote to Collage" to get started!</p>
-                </div>
-            `;
+
+            if (lastAction.action === 'add') {
+                // Remove the last added card
+                const cards = collage.querySelectorAll('.quote-card');
+                if (cards.length > 0) {
+                    const lastCard = cards[cards.length - 1];
+                    lastCard.remove();
+                    if (collage.children.length === 0) {
+                        collage.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-state-icon">💭</div>
+                                <p style="font-size: 1.2em;">No quotes yet. Click "Add Quote" to get started!</p>
+                            </div>
+                        `;
+                    }
+                }
+            } else if (lastAction.action === 'delete') {
+                // Restore deleted card
+                const emptyState = collage.querySelector('.empty-state');
+                if (emptyState) {
+                    emptyState.remove();
+                }
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = lastAction.card;
+                const restoredCard = tempDiv.firstElementChild;
+                restoredCard.style.animation = 'fadeInUp 0.5s forwards';
+                
+                // Reattach event listeners
+                const favoriteBtn = restoredCard.querySelector('.favorite-btn');
+                if (favoriteBtn) {
+                    const quote = {
+                        text: favoriteBtn.dataset.quoteText || '',
+                        author: favoriteBtn.dataset.quoteAuthor || '',
+                        category: favoriteBtn.dataset.quoteCategory || ''
+                    };
+                    favoriteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleFavorite(quote);
+                    });
+                }
+                
+                const deleteBtn = restoredCard.querySelector('.delete-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deleteQuoteCard(deleteBtn);
+                    });
+                }
+                
+                restoredCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.quote-actions')) {
+                        const quote = extractQuoteFromCard(restoredCard);
+                        copyToClipboard(`"${quote.text}" — ${quote.author}`);
+                        showNotification();
+                    }
+                });
+                
+                collage.appendChild(restoredCard);
+            }
+
+            updateStats();
+        }
+
+        // Toggle favorite
+        function toggleFavorite(quote) {
+            const index = favorites.findIndex(fav => fav.text === quote.text && fav.author === quote.author);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(quote);
+            }
+
+            localStorage.setItem('favoriteQuotes', JSON.stringify(favorites));
+            updateFavoritesView();
+            refreshCollage();
+            updateStats();
+        }
+
+        // Refresh collage to update favorite status and styling
+        function refreshCollage() {
+            const collage = document.getElementById('collage');
+            const cards = collage.querySelectorAll('.quote-card');
+            cards.forEach(card => {
+                const quote = extractQuoteFromCard(card);
+                
+                // Update styling
+                card.style.fontFamily = currentSettings.fontFamily;
+                card.style.color = currentSettings.textColor;
+                card.style.background = `linear-gradient(135deg, ${currentSettings.bgColor1} 0%, ${currentSettings.bgColor2} 100%)`;
+                
+                const quoteText = card.querySelector('.quote-text');
+                if (quoteText) {
+                    quoteText.style.fontSize = `${currentSettings.fontSize}em`;
+                }
+                
+                // Update favorite status
+                if (isFavorite(quote)) {
+                    card.classList.add('favorite');
+                    const favBtn = card.querySelector('.favorite-btn');
+                    if (favBtn) {
+                        favBtn.classList.add('active');
+                        const icon = favBtn.querySelector('i');
+                        if (icon) {
+                            icon.className = 'bi bi-heart-fill';
+                        }
+                    }
+                } else {
+                    card.classList.remove('favorite');
+                    const favBtn = card.querySelector('.favorite-btn');
+                    if (favBtn) {
+                        favBtn.classList.remove('active');
+                        const icon = favBtn.querySelector('i');
+                        if (icon) {
+                            icon.className = 'bi bi-heart';
+                        }
+                    }
+                }
+            });
+        }
+
+        // Toggle favorites section
+        function toggleFavorites() {
+            const section = document.getElementById('favoritesSection');
+            section.classList.toggle('show');
+            if (section.classList.contains('show')) {
+                updateFavoritesView();
+            }
+        }
+
+        // Update favorites view
+        function updateFavoritesView() {
+            const favoritesGrid = document.getElementById('favoritesGrid');
+            favoritesGrid.innerHTML = '';
+
+            if (favorites.length === 0) {
+                favoritesGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💛</div>
+                        <p style="font-size: 1.2em;">No favorites yet. Click the heart icon on any quote to favorite it!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            favorites.forEach(quote => {
+                const card = createQuoteCard(quote, true);
+                favoritesGrid.appendChild(card);
+            });
+        }
+
+        // Apply theme preset
+        function applyTheme(themeName, element) {
+            const themes = {
+                ocean: {
+                    bgColor1: '#667eea',
+                    bgColor2: '#764ba2',
+                    textColor: '#ffffff'
+                },
+                sunset: {
+                    bgColor1: '#f093fb',
+                    bgColor2: '#f5576c',
+                    textColor: '#ffffff'
+                },
+                forest: {
+                    bgColor1: '#134e5e',
+                    bgColor2: '#71b280',
+                    textColor: '#ffffff'
+                },
+                lavender: {
+                    bgColor1: '#e0c3fc',
+                    bgColor2: '#8ec5fc',
+                    textColor: '#333333'
+                },
+                minimal: {
+                    bgColor1: '#ffffff',
+                    bgColor2: '#f5f5f5',
+                    textColor: '#333333'
+                },
+                dark: {
+                    bgColor1: '#2c3e50',
+                    bgColor2: '#34495e',
+                    textColor: '#ecf0f1'
+                }
+            };
+
+            const theme = themes[themeName];
+            if (theme) {
+                document.getElementById('bgColor1').value = theme.bgColor1;
+                document.getElementById('bgColor2').value = theme.bgColor2;
+                document.getElementById('textColor').value = theme.textColor;
+                updateSettings();
+                refreshCollage();
+                
+                // Update active theme
+                document.querySelectorAll('.theme-preset').forEach(preset => {
+                    preset.classList.remove('active');
+                });
+                if (element) {
+                    element.classList.add('active');
+                }
+            }
+        }
+
+        // Export collage as image
+        function exportCollage() {
+            const collage = document.getElementById('collage');
+            const cards = collage.querySelectorAll('.quote-card');
+            
+            if (cards.length === 0) {
+                showNotification('No quotes to export!');
+                return;
+            }
+
+            // Temporarily hide action buttons for export
+            const actionButtons = collage.querySelectorAll('.quote-actions');
+            actionButtons.forEach(btn => btn.style.display = 'none');
+
+            // Use html2canvas library if available, otherwise fallback
+            if (typeof html2canvas !== 'undefined') {
+                html2canvas(collage, {
+                    backgroundColor: '#ffffff',
+                    scale: 2,
+                    logging: false
+                }).then(canvas => {
+                    // Restore buttons
+                    actionButtons.forEach(btn => btn.style.display = 'flex');
+                    
+                    canvas.toBlob(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `quote-collage-${Date.now()}.png`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        showNotification('Image downloaded!');
+                    });
+                });
+            } else {
+                // Fallback: load html2canvas from CDN
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                script.onload = () => exportCollage();
+                document.head.appendChild(script);
+                showNotification('Loading export tool...');
+            }
+        }
+
+        // Search functionality
+        function filterQuotes() {
+            searchQuery = document.getElementById('searchBox').value.toLowerCase();
+            const cards = document.getElementById('collage').querySelectorAll('.quote-card');
+            
+            cards.forEach(card => {
+                const text = card.querySelector('.quote-text').textContent.toLowerCase();
+                const author = card.querySelector('.quote-author').textContent.toLowerCase();
+                const category = card.querySelector('.quote-category').textContent.toLowerCase();
+                
+                if (text.includes(searchQuery) || author.includes(searchQuery) || category.includes(searchQuery)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         // Copy to clipboard
@@ -543,8 +1162,9 @@
         }
 
         // Show notification
-        function showNotification() {
+        function showNotification(message = 'Quote copied to clipboard!') {
             const notification = document.getElementById('copyNotification');
+            notification.textContent = message;
             notification.classList.add('show');
             setTimeout(() => {
                 notification.classList.remove('show');
@@ -555,15 +1175,43 @@
         document.getElementById('fontSize').addEventListener('input', function() {
             document.getElementById('fontSizeValue').textContent = this.value;
             updateSettings();
+            refreshCollage();
         });
 
-        document.getElementById('fontFamily').addEventListener('change', updateSettings);
-        document.getElementById('textColor').addEventListener('change', updateSettings);
-        document.getElementById('bgColor1').addEventListener('change', updateSettings);
-        document.getElementById('bgColor2').addEventListener('change', updateSettings);
+        document.getElementById('fontFamily').addEventListener('change', function() {
+            updateSettings();
+            refreshCollage();
+        });
+        document.getElementById('textColor').addEventListener('change', function() {
+            updateSettings();
+            refreshCollage();
+        });
+        document.getElementById('bgColor1').addEventListener('change', function() {
+            updateSettings();
+            refreshCollage();
+        });
+        document.getElementById('bgColor2').addEventListener('change', function() {
+            updateSettings();
+            refreshCollage();
+        });
+
+        document.getElementById('searchBox').addEventListener('input', filterQuotes);
+
+        // Add fade out animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: scale(0.8) translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
 
         // Initialize
         loadSettings();
+        updateStats();
     </script>
 </body>
 </html>
