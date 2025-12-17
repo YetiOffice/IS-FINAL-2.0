@@ -254,6 +254,22 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.tableau-iframe-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+
+.tableau-iframe-wrapper iframe {
+    width: 100%;
+    min-height: 600px;
+}
+
+@media (max-width: 968px) {
+    .tableau-iframe-wrapper iframe {
+        min-height: 500px;
+    }
+}
+
 .tableau-description {
     color: #34495e;
     margin-bottom: 20px;
