@@ -1,0 +1,74 @@
+/* Custom CSS for Bootstrap pages */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navigation adjustments */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Card hover effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Section spacing */
+section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+/* Resume section styling */
+#resume .card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+#resume .card-title {
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 0.5rem;
+}
+
+/* Social icons */
+footer a {
+    transition: opacity 0.3s ease;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+/* Skills icons */
+.display-4 {
+    margin-bottom: 1rem;
+}
+
+/* Ensure readability */
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Professional color scheme - no harsh combinations */
+.bg-primary {
+    background-color: #0d6efd !important;
+}
+
+.text-primary {
+    color: #0d6efd !important;
+}
+
